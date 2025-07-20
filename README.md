@@ -170,7 +170,7 @@ Index on score: -1 for fast leaderboard lookup.
 ---
 
 #### ✅ 4.2. Diagram: Flow of Execution
-Follow this link: [Link](https://mermaid.live/edit#pako:eNp1kt1O4zAQhV9lNFddbQgJCST1BRLQXYmVEEili4Ry4ybT1KKxu47NX9V3xw60qybiLp6c852Z0WywVBUhw0K29M-SLGkieK15U0iANddGlGLNpYFZS7pf-62VNCSrfv2Sl0-uDKOLu-sf_Z8TbvictwSjGyVrNbkcKB5oPlWOYGBK-tnHeoVv4Oj8fJfJ4I70QummhYvSCCVhRGEdwouQUPOGOupO7HwHPTnz7fQejttSaToWstTUkEv-CX8e7r3xQD10_-UrUXFD38mHMzK43qdYNwl00d471B4NA2drH1f1rP3Y_uIY_GqEgQI7x1xxXTHbkQp0izJLkPQCRq0hjjyv7z9ct22X8B8EnyAMsCHdcFG5I9p4SIFm6eYskLnPihbcrkzh7mvrpNwaNX2TJTKjLQWola2XyBZ81brXJ_Hr_vZVdxKPSjU7i3si2-ArsvgkCrM8ieIsjfMoG2dxgG_IknEYn6TjbJyn6WmepMnZNsD3jhCFeXYaYK19t18duNlIXykrjSMm2w803wO-)
+Follow this link: [Link](https://mermaid.live/edit#pako:eNqVVFFv2jAQ_isnP1E1hQSyhfgBiY5VYtPUStBWqvJQkxzBGrGZ47SjiP8-24AWQtuteUru7vvuu8_nbEgqMySUlPirQpHiiLNcsSIRACumNE_5igkNtyWqZuxKSaFRZM34JUt_mjC0hjdjmKB6QnXWrBlWeuFyPMVmbsQ0m7ESofVDilyOLk_Q9zibSNNE7-kTYSusxovB4CCLwg2quVRFCcNUcymghe28Dc9cQM4KdKyHYoN7TbbhuJ5MocNWvFOmUmGHi1RhgUbEOXy7n1qO14CGrz4ihTtUfL4-QOq5izd724FgPIIWn8MTW_LMSWZLbWlgLFzMht7QcGRG6AdwK5hpLBV_QYfDpXHZct39g2kwOD0UahQcvKisUmcQzNZwHuyoTjHvzLrKmMasxvRhOVeo0wVM5QoC33lXWjE1ro_o2dMskWWoZpKp9-1pbiSFrwXX8Oi6Ozit3ISPZv_M2WtHv6NsYo93uCoXUO3N-T81R_iu78P1d7OsAp__euFuLfFIgapgPDP3f2PDCdELc6AJoeY1wzmrljohidiaUrM5crIWKaFaVegRJat8QeicmR3yyE7h_udxKDF39UHK-iehG_Kb0KDrt6N-zw-iMOj7URwFHlkT2ovbQTeMo7gfhp_6vbD3eeuRF8fgt_tRGNcfj-TKKt-rMROh-iIroQmNt38A93GVDg)
 
 Here’s a textual representation of the diagram. You can convert this into a visual format using tools like **Lucidchart**, **draw.io**, or **Mermaid**.
 
@@ -178,17 +178,27 @@ Here’s a textual representation of the diagram. You can convert this into a vi
 sequenceDiagram
   participant User
   participant Frontend
-  participant Backend (API)
+  participant Backend (API Server)
+  participant Auth Service
   participant Database (MongoDB)
   participant WebSocket Server
 
   User->>Frontend: Performs Action (e.g. win game)
-  Frontend->>Backend (API): POST /score/increment + JWT
-  Backend (API)->>Backend (API): Validate JWT
-  Backend (API)->>Database (MongoDB): Increment user score
-  Database (MongoDB)-->>Backend (API): Updated user score
-  Backend (API)->>WebSocket Server: Emit "scoreboard:update" with new top 10
-  WebSocket Server->>Frontend: Push scoreboard update
+  Frontend->>Backend (API Server): POST /api/score/increment + JWT
+  Backend (API Server)->>Auth Service: Verify JWT
+  Auth Service-->>Backend (API Server): User ID (if valid)
+  alt JWT Invalid
+    Backend (API Server)-->>Frontend: 401 Unauthorized
+  else JWT Valid
+    Backend (API Server)->>Database (MongoDB): Increment user score by +1
+    Database (MongoDB)-->>Backend (API Server): Updated user score
+    Backend (API Server)->>Database (MongoDB): Fetch Top 10 Users by score
+    Database (MongoDB)-->>Backend (API Server): Top 10 leaderboard
+    Backend (API Server)->>WebSocket Server: Emit `scoreboard:update` with top 10
+    WebSocket Server->>Frontend: Push updated leaderboard
+    Backend (API Server)-->>Frontend: 200 OK + new score
+  end
+
   
  ``` 
 
