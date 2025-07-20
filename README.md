@@ -56,7 +56,7 @@ curl -X DELETE http://localhost:5000/api/resources/<id>
 This module provides backend functionality for tracking and displaying the **Top 10 users by score** on a real-time scoreboard. The module includes API endpoints to increment user scores and stream live scoreboard updates to connected clients.
 
 ---
-###### 4.1.2. 📌 Features
+##### 4.1.2. 📌 Features
 
 - ✅ Increment user score via a secure API.
 - ✅ Real-time scoreboard updates using WebSockets.
@@ -64,7 +64,7 @@ This module provides backend functionality for tracking and displaying the **Top
 - ✅ Security validation to prevent unauthorized score modifications.
 ---
 
-###### 4.1.3. 🧩 Module Responsibilities
+##### 4.1.3. 🧩 Module Responsibilities
 
 1. **Score Management**
    - Securely update scores when a user completes a valid action.
@@ -77,7 +77,7 @@ This module provides backend functionality for tracking and displaying the **Top
 
 ---
 
-###### 4.1.4. 🔐 Security Considerations
+##### 4.1.4. 🔐 Security Considerations
 
 - All score update requests must include a **valid JWT access token**.
 - The server will **verify the token** and extract the authenticated user ID.
@@ -85,7 +85,7 @@ This module provides backend functionality for tracking and displaying the **Top
 
 ---
 
-###### 📡4.1.5. API Endpoints
+##### 📡4.1.5. API Endpoints
 
 ###### 4.1.5.1.  `POST /api/score/increment`
 
