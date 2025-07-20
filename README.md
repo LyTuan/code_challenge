@@ -17,6 +17,8 @@ npx ts-node problem_4/test_the_way_sum_to_n.ts
 
 ### 3. Run the express Crude 
 ```commandline
+npm install express mongoose dotenv
+npm install -D typescript ts-node-dev @types/express @types/node
 cd problem_5/src 
 docker compose up -d 
 cd ../../
