@@ -1,0 +1,25 @@
+{
+  "name": "code_challenge",
+  "version": "1.0.0",
+  "description": "1. Test the way su to n ```commandline tsc sum_to_n.ts sum_to_n.test.ts node sum_to_n.test.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LyTuan/code_challege.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LyTuan/code_challege/issues"
+  },
+  "homepage": "https://github.com/LyTuan/code_challege#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
