@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Resource from '../models/resource.model';
+import { ERROR_MESSAGE } from "../utils/constants";
 
 // Create
 export const createResource = async (req: Request, res: Response) => {
@@ -21,20 +22,20 @@ export const getResources = async (req: Request, res: Response) => {
 // Read one
 export const getResourceById = async (req: Request, res: Response) => {
     const resource = await Resource.findById(req.params.id);
-    if(!resource) return res.status(404).json({message: 'Not found'});
+    if(!resource) return res.status(404).json({message: ERROR_MESSAGE.NOT_FOUND});
     res.json(resource);
 };
 
 // Update
 export const updateResource = async (req: Request, res: Response) => {
     const resource = await Resource.findByIdAndUpdate(req.params.id, req.body, {new: true});
-    if(!resource) return res.status(404).json({message: 'Not found'});
+    if(!resource) return res.status(404).json({message: ERROR_MESSAGE.NOT_FOUND});
     res.json(resource);
 };
 
 // Delete
 export const deleteResource = async (req: Request, res: Response) => {
     const resource = await Resource.findByIdAndDelete(req.params.id);
-    if(!resource) return res.status(404).json({message: 'Not found'});
-    res.json({message: 'Deleted'});
+    if(!resource) return res.status(404).json({message: ERROR_MESSAGE.NOT_FOUND});
+    res.json({message: ERROR_MESSAGE.DELETED});
 };
