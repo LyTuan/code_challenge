@@ -50,12 +50,13 @@ curl -X DELETE http://localhost:5000/api/resources/<id>
 ```
 
 ### 4. Architecture 
+#### 4.1. Module information 
 
-#### 📊 Scoreboard API Module
+##### 4.1.1. 📊 Scoreboard API Module
 This module provides backend functionality for tracking and displaying the **Top 10 users by score** on a real-time scoreboard. The module includes API endpoints to increment user scores and stream live scoreboard updates to connected clients.
 
 ---
-##### 📌 Features
+###### 4.1.2. 📌 Features
 
 - ✅ Increment user score via a secure API.
 - ✅ Real-time scoreboard updates using WebSockets.
@@ -63,7 +64,7 @@ This module provides backend functionality for tracking and displaying the **Top
 - ✅ Security validation to prevent unauthorized score modifications.
 ---
 
-##### 🧩 Module Responsibilities
+###### 4.1.3. 🧩 Module Responsibilities
 
 1. **Score Management**
    - Securely update scores when a user completes a valid action.
@@ -76,7 +77,7 @@ This module provides backend functionality for tracking and displaying the **Top
 
 ---
 
-##### 🔐 Security Considerations
+###### 4.1.4. 🔐 Security Considerations
 
 - All score update requests must include a **valid JWT access token**.
 - The server will **verify the token** and extract the authenticated user ID.
@@ -84,9 +85,9 @@ This module provides backend functionality for tracking and displaying the **Top
 
 ---
 
-##### 📡1. API Endpoints
+###### 📡4.1.5. API Endpoints
 
-###### 1.1. `POST /api/score/increment`
+###### 4.1.5.1.  `POST /api/score/increment`
 
 Increments the authenticated user's score by 1.
 
@@ -103,7 +104,7 @@ Authorization: Bearer <JWT>
 ```
 
 
-###### 1.2. `GET /api/scoreboard/top`
+###### 4.1.5.2. `GET /api/scoreboard/top`
 Returns the current top 10 users with their scores.
 
 Response:
@@ -114,7 +115,7 @@ Response:
   ...
 ]
 ```
-###### 1.3. 🔁 Real-time WebSocket Events
+###### 4.1.5.3. 🔁 Real-time WebSocket Events
 scoreboard:update
 Broadcasted to all connected WebSocket clients whenever the scoreboard changes.
 
@@ -127,7 +128,7 @@ Broadcasted to all connected WebSocket clients whenever the scoreboard changes.
 }
 ```
 
-###### 1.4.🧱 Database Schema (MongoDB Example)
+###### 4.1.5.4.🧱 Database Schema (MongoDB Example)
 ```typescript
 User {
   _id: ObjectId
@@ -139,7 +140,7 @@ User {
 
 Index on score: -1 for fast leaderboard lookup.
 
-###### 1.5. 🚀 Tech Stack Recommendation
+###### 4.1.5.5. 🚀 Tech Stack Recommendation
 
     Express.js with TypeScript
     
@@ -151,7 +152,7 @@ Index on score: -1 for fast leaderboard lookup.
     
     Optional: Redis pub/sub or change streams for scaling
 
-###### 1.6. 📌 Authentication Strategy
+###### 4.1.5.6. 📌 Authentication Strategy
     
     Each API call must include a signed JWT.
     
@@ -159,7 +160,7 @@ Index on score: -1 for fast leaderboard lookup.
     
     Malicious attempts to fake user ID or score updates will be blocked.
     
-###### 1.7. ⚠️ Edge Cases to Handle
+###### 4.1.5.7. ⚠️ Edge Cases to Handle
     User not found in DB → return 404.
     
     JWT expired or invalid → return 401.
@@ -168,7 +169,7 @@ Index on score: -1 for fast leaderboard lookup.
 
 ---
 
-## ✅ 2. Diagram: Flow of Execution
+#### ✅ 4.2. Diagram: Flow of Execution
 Follow this link: [Link](https://mermaid.live/edit#pako:eNp1kt1O4zAQhV9lNFddbQgJCST1BRLQXYmVEEili4Ry4ybT1KKxu47NX9V3xw60qybiLp6c852Z0WywVBUhw0K29M-SLGkieK15U0iANddGlGLNpYFZS7pf-62VNCSrfv2Sl0-uDKOLu-sf_Z8TbvictwSjGyVrNbkcKB5oPlWOYGBK-tnHeoVv4Oj8fJfJ4I70QummhYvSCCVhRGEdwouQUPOGOupO7HwHPTnz7fQejttSaToWstTUkEv-CX8e7r3xQD10_-UrUXFD38mHMzK43qdYNwl00d471B4NA2drH1f1rP3Y_uIY_GqEgQI7x1xxXTHbkQp0izJLkPQCRq0hjjyv7z9ct22X8B8EnyAMsCHdcFG5I9p4SIFm6eYskLnPihbcrkzh7mvrpNwaNX2TJTKjLQWola2XyBZ81brXJ_Hr_vZVdxKPSjU7i3si2-ArsvgkCrM8ieIsjfMoG2dxgG_IknEYn6TjbJyn6WmepMnZNsD3jhCFeXYaYK19t18duNlIXykrjSMm2w803wO-)
 
 Here’s a textual representation of the diagram. You can convert this into a visual format using tools like **Lucidchart**, **draw.io**, or **Mermaid**.
@@ -192,7 +193,7 @@ sequenceDiagram
  ``` 
 
 
-##### ✅ 3. Suggested Improvements
+#### ✅ 4.3. Suggested Improvements
 
 🔧 Enhancements to Consider
 
@@ -207,7 +208,7 @@ sequenceDiagram
 
 
 
-##### ✅ 4. Next Steps for Backend Team
+#### ✅ 4.4. Next Steps for Backend Team
 
 | No. | Task                                                                                     |
 |-----|-------------------------------------------------------------------------------------------|
